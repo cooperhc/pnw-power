@@ -23,4 +23,5 @@ iframe {
     display: block;
     margin: 0 auto;
     border: 1px solid black;
+    padding-bottom: 10px;
 }
