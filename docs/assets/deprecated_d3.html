@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<meta charset="utf-8">
+
+<!-- Load d3.js. -->
+<script src="https://d3js.org/d3.v6.js"></script>
+
+<!-- Create a div where the graph will live --> 
+<div id="chart"></div>
+
+<script>
+// Set the dimensions and margins of the graph 
+const margin = {top: 10, right: 30, bottom: 30, left: 60},
+    width = 900 - margin.left - margin.right, 
+    height = 250 - margin.top - margin.bottom; 
+        
+const svg = d3.select("#chart")
+            .append("svg")
+            .attr("width", width + margin.left + margin.right)
+            .attr("height", height + margin.top + margin.bottom)
+            .append("g")
+            .attr("transform", `translate(${margin.left}, ${margin.top})`);
+
+// Read in the data
+d3.csv("electricity.csv", function(d, i){
+    if(i < 263){ return {
+        month: d['month'],
+        hydroelectric_percent: +d['hydroelectric_percent'],
+        geothermal_percent: +d['geothermal_percent']
+    }}
+}).then(function(data){
+	
+    // Add X Scale
+    const x = d3.scaleBand()
+        .domain(data.map(d => d.month))
+        .range([0, width])
+        .padding(0.2);
+                
+    // Add Y Scale 
+    const y = d3.scaleLinear()
+                .domain([0, d3.max(data, d => Math.max(d.hydroelectric_percent, d.geothermal_percent))])
+                .range([height, 0]);
+                
+    // Add axes
+	const tickValues = x.domain().filter((d, i) => {
+		return d.indexOf('Jan') === 0;
+	});
+
+	const parseDate = d3.timeParse("%b-%y");
+	const tickFormat = d3.timeFormat("%Y");
+
+	// Add X axis
+	svg.append("g")
+   .attr("transform", `translate(0, ${height})`)
+   .call(d3.axisBottom(x).tickValues(tickValues).tickFormat(d => tickFormat(parseDate(d))));
+		
+
+    //Add Y axis
+    svg.append("g")
+        .call(d3.axisLeft(y));
+        
+    // Add hydroelectric line
+    const hydroelectricLine = d3.line()
+                    .x(d => x(d.month) + x.bandwidth()/2)
+                    .y(d => y(d.hydroelectric_percent));
+                    
+    svg.append("path")
+        .datum(data)
+        .attr("fill", "none")
+        .attr("stroke", "steelblue")
+        .attr("stroke-width", 1.5)
+        .attr("d", hydroelectricLine);
+        
+    // Add geothermal line
+    const geothermalLine = d3.line()
+                    .x(d => x(d.month) + x.bandwidth()/2)
+                    .y(d => y(d.geothermal_percent));
+                    
+    svg.append("path")
+        .datum(data)
+        .attr("fill", "none")
+        .attr("stroke", "green")
+        .attr("stroke-width", 1.5)
+        .attr("d", geothermalLine);
+})
+</script>
