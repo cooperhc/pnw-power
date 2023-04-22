@@ -1,14 +1,22 @@
 <body>
-    <h2>Renewable Energy in the Pacific Northwest</h2>
-    <p>Source: U.S. Energy Information Administration</p>
+    <h2>Renewable and Clean Energy in the Pacific Northwest</h2>
+    <p>Source: <a href="https://www.eia.gov/electricity/data/browser/#/topic/0?agg=2,0,1&fuel=vt98&geo=000000000083&sec=g&linechart=ELEC.GEN.ALL-ID-99.M~ELEC.GEN.COW-ID-99.M~ELEC.GEN.PEL-ID-99.M~ELEC.GEN.PC-ID-99.M~ELEC.GEN.NG-ID-99.M~ELEC.GEN.OOG-ID-99.M~ELEC.GEN.NUC-ID-99.M~ELEC.GEN.HYC-ID-99.M~ELEC.GEN.WND-ID-99.M~ELEC.GEN.GEO-ID-99.M~ELEC.GEN.BIO-ID-99.M~ELEC.GEN.HPS-ID-99.M~ELEC.GEN.ALL-OR-99.M~ELEC.GEN.COW-OR-99.M~ELEC.GEN.PEL-OR-99.M~ELEC.GEN.PC-OR-99.M~ELEC.GEN.NG-OR-99.M~ELEC.GEN.OOG-OR-99.M~ELEC.GEN.NUC-OR-99.M~ELEC.GEN.HYC-OR-99.M~ELEC.GEN.WND-OR-99.M~ELEC.GEN.GEO-OR-99.M~ELEC.GEN.BIO-OR-99.M~ELEC.GEN.HPS-OR-99.M~ELEC.GEN.ALL-WA-99.M~ELEC.GEN.COW-WA-99.M~ELEC.GEN.PEL-WA-99.M~ELEC.GEN.PC-WA-99.M~ELEC.GEN.NG-WA-99.M~ELEC.GEN.OOG-WA-99.M~ELEC.GEN.NUC-WA-99.M~ELEC.GEN.HYC-WA-99.M~ELEC.GEN.WND-WA-99.M~ELEC.GEN.GEO-WA-99.M~ELEC.GEN.BIO-WA-99.M~ELEC.GEN.HPS-WA-99.M&columnchart=ELEC.GEN.ALL-ID-99.M&map=ELEC.GEN.ALL-ID-99.M&freq=M&start=200101&end=202301&ctype=linechart&ltype=pin&rtype=s&pin=&rse=0&maptype=0" style="text-decoration:none; color: #999;">U.S. Energy Information Administration</a></p>
     <p>Data includes Oregon, Washington, and Idaho</p>
     <p>Created by Cooper Cairns</p>
-    <ng-container>
+    <div class="button-container">
+        <button *ngIf="absolute" (click)="setPercent()">Percentage</button>
+        <button *ngIf="!absolute" class="selected" (click)="setPercent()">Percentage</button>
+        <button *ngIf="percent" (click)="setAbsolute()">Absolute</button>
+        <button *ngIf="!percent" class="selected" (click)="setAbsolute()">Absolute</button>
+    </div>
+    <ng-container *ngIf="percent">
         <iframe src="assets/1percent.png" width="900" height="300" frameborder="0" scrolling="no"></iframe>
-        <iframe src="assets/1abs.png" width="900" height="300" frameborder="0" scrolling="no"></iframe>
         <iframe src="assets/2percent.png" width="900" height="300" frameborder="0" scrolling="no"></iframe>
-        <iframe src="assets/2abs.png" width="900" height="300" frameborder="0" scrolling="no"></iframe>
         <iframe src="assets/3percent.png" width="900" height="300" frameborder="0" scrolling="no"></iframe>
+    </ng-container>
+    <ng-container *ngIf="absolute">
+        <iframe src="assets/1abs.png" width="900" height="300" frameborder="0" scrolling="no"></iframe>
+        <iframe src="assets/2abs.png" width="900" height="300" frameborder="0" scrolling="no"></iframe>
         <iframe src="assets/3abs.png" width="900" height="300" frameborder="0" scrolling="no"></iframe>
     </ng-container>
 </body>

@@ -6,5 +6,21 @@ import { Component } from '@angular/core';
   styleUrls: ['./vis.component.css']
 })
 export class VisComponent {
+  percent = true
+  absolute = false
+
+
+  setPercent(): void{
+    this.percent = true
+    this.absolute = false
+  }
+
+  setAbsolute(): void{
+    this.absolute = true
+    this.percent = false
+  }
+
+  constructor(){}
+
 
 }
